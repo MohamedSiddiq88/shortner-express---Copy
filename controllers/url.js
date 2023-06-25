@@ -38,8 +38,18 @@ async function handleGetAnalytics(req, res) {
     }
   }
   
+  async function handleGetAllURLs(req, res) {
+    try {
+      const allURLs = await URL.find({});
+      return res.json({ urls: allURLs });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  }
 
 module.exports = {
     hanleGenerateNewShortURL,
     handleGetAnalytics,
+    handleGetAllURLs,
 }
