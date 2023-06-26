@@ -48,8 +48,36 @@ async function handleGetAnalytics(req, res) {
     }
   }
 
+  async function handleGetDailyCount(req, res) {
+    try {
+      // Get the count for URLs created per day
+      const dailyCount = await URL.countDocuments({ createdAt: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) } });
+  
+      return res.json({ count: dailyCount });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+  
+  async function handleGetMonthlyCount(req, res) {
+    try {
+      // Get the count for URLs created within a month
+      const monthlyCount = await URL.countDocuments({ createdAt: { $gte: new Date(new Date().setDate(1)) } });
+  
+      return res.json({ count: monthlyCount });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+  
+
 module.exports = {
     hanleGenerateNewShortURL,
     handleGetAnalytics,
     handleGetAllURLs,
+    handleGetDailyCount,
+    handleGetMonthlyCount,
+
 }
