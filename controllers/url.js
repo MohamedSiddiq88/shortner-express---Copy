@@ -51,8 +51,13 @@ async function handleGetAnalytics(req, res) {
 
   async function handleGetDailyCount(req, res) {
     try {
-      // Get the count for URLs created per day
-      const dailyCount = await URL.countDocuments({ createdAt: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) } });
+      const currentUserEmail = req.body.email; // Assuming the current user's email is available in req.user.email
+  
+      // Get the count for URLs created per day by the current user
+      const dailyCount = await URL.countDocuments({
+        userEmail: currentUserEmail,
+        createdAt: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) },
+      });
   
       return res.json({ count: dailyCount });
     } catch (error) {
@@ -63,8 +68,13 @@ async function handleGetAnalytics(req, res) {
   
   async function handleGetMonthlyCount(req, res) {
     try {
-      // Get the count for URLs created within a month
-      const monthlyCount = await URL.countDocuments({ createdAt: { $gte: new Date(new Date().setDate(1)) } });
+      const currentUserEmail = req.body.email; // Assuming the current user's email is available in req.user.email
+  
+      // Get the count for URLss created within a month by the current user
+      const monthlyCount = await URL.countDocuments({
+        userEmail: currentUserEmail,
+        createdAt: { $gte: new Date(new Date().setDate(1)) },
+      });
   
       return res.json({ count: monthlyCount });
     } catch (error) {
@@ -72,6 +82,7 @@ async function handleGetAnalytics(req, res) {
       return res.status(500).json({ error: 'Internal server error' });
     }
   }
+  
   
 
 module.exports = {
