@@ -8,6 +8,7 @@ async function hanleGenerateNewShortURL(req, res){
     
     await URL.create({
         shortId: shortID,
+        user: body.user,
         redirectURL: body.url,
         visitedHistory: [],
     })
