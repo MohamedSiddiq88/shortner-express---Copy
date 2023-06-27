@@ -51,11 +51,11 @@ async function handleGetAnalytics(req, res) {
 
   async function handleGetDailyCount(req, res) {
     try {
-      const currentUserEmail = req.body.email; // Assuming the current user's email is available in req.user.email
+      const currentUserEmail = req.body.email; // Assuming the current user's email is available in req.body.email
   
       // Get the count for URLs created per day by the current user
       const dailyCount = await URL.countDocuments({
-        userEmail: currentUserEmail,
+        user: currentUserEmail,
         createdAt: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) },
       });
   
@@ -68,11 +68,11 @@ async function handleGetAnalytics(req, res) {
   
   async function handleGetMonthlyCount(req, res) {
     try {
-      const currentUserEmail = req.body.email; // Assuming the current user's email is available in req.user.email
+      const currentUserEmail = req.body.email; // Assuming the current user's email is available in req.body.email
   
-      // Get the count for URLss created within a month by the current user
+      // Get the count for URLs created within a month by the current user
       const monthlyCount = await URL.countDocuments({
-        userEmail: currentUserEmail,
+        user: currentUserEmail,
         createdAt: { $gte: new Date(new Date().setDate(1)) },
       });
   
@@ -83,6 +83,7 @@ async function handleGetAnalytics(req, res) {
     }
   }
   
+
   
 
 module.exports = {
